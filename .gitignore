@@ -38,3 +38,8 @@ _Ignore.meta
 Logs
 Assets/Plugins/Editor/JetBrains
 Assets/Plugins/Editor/JetBrains.meta
+Recordings
+Packages/com.unity.*
+MemoryCaptures
+Assets/BuildReports
+SerializedBuildInfo

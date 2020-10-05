@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BoatAttack
 {
@@ -10,19 +8,26 @@ namespace BoatAttack
     public class RandomHue : MonoBehaviour
     {
         public MeshRenderer[] renderers;
-        void OnValidate()
-        {
-            float hue = Random.Range(0f, 1f);
-            MaterialPropertyBlock mtb = new MaterialPropertyBlock();
-            mtb.SetFloat("_Hue", hue);
+        private static readonly int Hue = Shader.PropertyToID("_Hue");
 
-            if (renderers.Length > 0)
+        private void OnEnable()
+        {
+            RandomizeHue();
+        }
+
+        void RandomizeHue()
+        {
+            var hue = Random.Range(0f, 1f);
+
+            if (renderers == null || renderers.Length <= 0) return;
+            
+            foreach (var t in renderers)
             {
-                for (int i = 0; i < renderers.Length; i++)
-                {
-                    renderers[i].SetPropertyBlock(mtb);
-                }
+                if (t == null) continue;
                 
+                var mat = new Material(t.sharedMaterial);
+                mat.SetFloat(Hue, hue);
+                t.material = mat;
             }
         }
     }

@@ -1,8 +1,9 @@
 #ifndef SHADOW_PASS_VEGETATION_INCLUDED
 #define SHADOW_PASS_VEGETATION_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
-#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Shadows.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+#include "Vegetation.hlsl"
 
 float3 _LightDirection;
 
@@ -28,8 +29,8 @@ VertexOutput ShadowPassVegetationVertex(VertexInput input)
     
     #if _VERTEXANIMATION
     /////////////////////////////////////vegetation stuff//////////////////////////////////////////////////
-    float3 objectOrigin = UNITY_ACCESS_INSTANCED_PROP(Props, _Position).xyz;
-    input.positionOS.xyz = VegetationDeformation(input.positionOS, objectOrigin, input.normalOS, input.color.x, input.color.z, input.color.y);
+    float4 objectOrigin = UNITY_MATRIX_M[1];
+    input.positionOS.xyz = VegetationDeformation(input.positionOS.xyz, objectOrigin.xyz, input.normalOS.xyz, input.color.x, input.color.z, input.color.y, _BendStrength);
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     #endif
     
@@ -50,8 +51,9 @@ VertexOutput ShadowPassVegetationVertex(VertexInput input)
 
 half4 ShadowPassVegetationFragment(VertexOutput IN) : SV_TARGET
 {
-    half alpha = SampleAlbedoAlpha(IN.uv, TEXTURE2D_PARAM(_MainTex, sampler_MainTex)).a;
+    half alpha = SampleAlbedoAlpha(IN.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a;
     clip(alpha - _Cutoff);
+    
     return 1;
 }
 

@@ -1,16 +1,17 @@
 ﻿#ifndef WATER_INPUT_INCLUDED
 #define WATER_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-CBUFFER_START(MaterialProperties)
+CBUFFER_START(UnityPerMaterial)
 half _BumpScale;
+half4 _DitherPattern_TexelSize;
+CBUFFER_END
 half _MaxDepth;
 half _MaxWaveHeight;
 int _DebugPass;
-half4 _depthCamZParams;
+half4 _VeraslWater_DepthCamParams;
 float4x4 _InvViewProjection;
-CBUFFER_END
 
 // Screen Effects textures
 SAMPLER(sampler_ScreenTextures_linear_clamp);
@@ -28,8 +29,9 @@ TEXTURE2D(_WaterDepthMap); SAMPLER(sampler_WaterDepthMap_linear_clamp);
 
 // Surface textures
 TEXTURE2D(_AbsorptionScatteringRamp); SAMPLER(sampler_AbsorptionScatteringRamp);
-TEXTURE2D_ARRAY(_SurfaceMap); SAMPLER(sampler_SurfaceMap);
+TEXTURE2D(_SurfaceMap); SAMPLER(sampler_SurfaceMap);
 TEXTURE2D(_FoamMap); SAMPLER(sampler_FoamMap);
+TEXTURE2D(_DitherPattern); SAMPLER(sampler_DitherPattern);
 
 // Must match Lightweigth ShaderGraph master node
 struct SurfaceData

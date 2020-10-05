@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering.LWRP;
+﻿using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace WaterSystem.Data
 {
@@ -14,7 +12,7 @@ namespace WaterSystem.Data
 		public GeometryType waterGeomType; // The type of geometry, either vertex offset or tessellation
         public ReflectionType refType = ReflectionType.PlanarReflection; // How the reflecitons are generated
 		// planar
-		public PlanerReflections.PlanarReflectionSettings planarSettings; // Planar reflection settings
+		public PlanarReflections.PlanarReflectionSettings planarSettings; // Planar reflection settings
 		// cubemap
 		public Cubemap cubemapRefType; // custom cubemap reference
 
